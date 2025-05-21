@@ -1,0 +1,8 @@
+package com.demo.beans;
+
+public class Address {
+	private int id;
+	private String city;
+	private String country;
+	
+}
