@@ -22,6 +22,10 @@ public class ProductService {
 		return productDao.findById(productId);
 	}
 	
+	public List<ProductEntity> getProductsByCategory(String category){
+		return productDao.findByProductCategory(category);
+	}
+	
 	public ProductEntity addProduct(ProductEntity newProduct) {
 		return productDao.saveAndFlush(newProduct);
 	}

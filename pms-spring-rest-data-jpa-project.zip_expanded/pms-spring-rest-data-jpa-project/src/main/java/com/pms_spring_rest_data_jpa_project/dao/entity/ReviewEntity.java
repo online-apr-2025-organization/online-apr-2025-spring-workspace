@@ -1,5 +1,8 @@
 package com.pms_spring_rest_data_jpa_project.dao.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -36,5 +39,6 @@ public class ReviewEntity {
 	
 	@ManyToOne
 	@JoinColumn(name="review_product_id")
+	@JsonBackReference
 	private ProductEntity productEntity;
 }
