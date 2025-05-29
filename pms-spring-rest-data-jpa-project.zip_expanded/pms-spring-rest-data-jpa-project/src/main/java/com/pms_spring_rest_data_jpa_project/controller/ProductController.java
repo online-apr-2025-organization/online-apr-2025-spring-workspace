@@ -16,7 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pms_spring_rest_data_jpa_project.dao.entity.ProductEntity;
+import com.pms_spring_rest_data_jpa_project.exception.ProductNotFoundException;
 import com.pms_spring_rest_data_jpa_project.service.ProductService;
+
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/api")
@@ -32,8 +35,15 @@ public class ProductController {
 	}
 	
 	@GetMapping("/products/{productId}")
-	public ResponseEntity<Optional<ProductEntity>> getAProduct(@PathVariable int productId) {
-		return new ResponseEntity<Optional<ProductEntity>>(productService.getAProduct(productId), HttpStatus.OK);
+	public ResponseEntity<ProductEntity> getAProduct(@PathVariable int productId) {
+		ProductEntity prod = null;
+		Optional<ProductEntity> optProduct = productService.getAProduct(productId);
+		if(optProduct.isPresent()){
+			prod = optProduct.get();
+		}else {
+			throw new ProductNotFoundException();
+		}
+		return new ResponseEntity<ProductEntity>(prod, HttpStatus.OK);
 	}
 	
 	@GetMapping("/products/category/{pCat}")
@@ -43,7 +53,7 @@ public class ProductController {
 	}
 	
 	@PostMapping("/products")
-	public ResponseEntity<ProductEntity> addProduct(@RequestBody ProductEntity newProduct) {
+	public ResponseEntity<ProductEntity> addProduct(@RequestBody @Valid ProductEntity newProduct) {
 		return new ResponseEntity<ProductEntity>(productService.addProduct(newProduct), HttpStatus.OK);
 	}
 	

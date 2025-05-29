@@ -12,6 +12,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -28,15 +29,19 @@ public class ProductEntity {
 	@Column(name="prod_id")
 	private int productId;
 	
+	@NotNull
 	@Column(name="prod_name")
 	private String productName;
 	
+	@NotNull
 	@Column(name="prod_description")
 	private String productDescription;
 	
+	@NotNull
 	@Column(name="prod_cost")
 	private int productCost;
 	
+	@NotNull
 	@Column(name="prod_category")
 	private String productCategory;
 	
