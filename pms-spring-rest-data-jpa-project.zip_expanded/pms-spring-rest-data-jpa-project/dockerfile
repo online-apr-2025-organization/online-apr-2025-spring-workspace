@@ -1,0 +1,3 @@
+FROM openjdk:17-oracle
+COPY ./target/pms-spring-rest-data-jpa-project-0.0.1-SNAPSHOT.jar pms.jar
+CMD ["java","-jar","pms.jar"]
