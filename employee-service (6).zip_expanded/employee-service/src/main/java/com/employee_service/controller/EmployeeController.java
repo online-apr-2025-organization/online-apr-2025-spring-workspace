@@ -18,6 +18,8 @@ import com.employee_service.dao.entity.EmployeeEntity;
 import com.employee_service.pojo.DepartmentPojo;
 import com.employee_service.pojo.EmployeePojo;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+
 @RestController
 @RequestMapping("/api")
 public class EmployeeController {
@@ -31,6 +33,7 @@ public class EmployeeController {
 	}
 	
 	@GetMapping("/employees/{empId}")
+	@CircuitBreaker(name="myCB", fallbackMethod = "fallBackEmployee")
 	public ResponseEntity<EmployeePojo> getAEmployee(@PathVariable int empId){
 		Optional<EmployeeEntity> fetchedEmpOpt = empDao.findById(empId);
 		EmployeeEntity fetchedEmp = null;
@@ -49,5 +52,9 @@ public class EmployeeController {
 		}
 		
 		return new ResponseEntity<EmployeePojo>(empPojo, HttpStatus.OK);
+	}
+	
+	public ResponseEntity<EmployeePojo> fallBackEmployee(){
+		return new ResponseEntity<EmployeePojo>(new EmployeePojo(), HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
